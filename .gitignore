@@ -1,0 +1,25 @@
+# ESP-IDF build artifacts
+/build/
+/build_*/
+
+# ESP-IDF config backup
+sdkconfig.old
+
+# Editor / tooling caches
+.cache/
+.clangd
+
+# Reference firmware binaries inside use/ (not project source)
+use/**/*.bin
+use/**/*.elf
+use/**/*.pdf
+use/**/*.map
+
+# WorkBuddy local AI project data (not for repo)
+.workbuddy/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
