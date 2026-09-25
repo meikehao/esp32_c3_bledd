@@ -21,8 +21,8 @@
 #include "services/gatt/ble_svc_gatt.h"
 #include "driver/gpio.h"   /* 控制物理开关（继电器/负载）的 GPIO 驱动 */
 
-/* 蓝牙设备名：想改名字只改这一行 */
-#define BLE_DEVICE_NAME "C3_BLE_01"
+/* 蓝牙设备名 */
+#define BLE_DEVICE_NAME "洁洁的哈士奇"
 
 /* ---------- 蓝牙开关配置：手机发 on/off（或 1/0）控制此引脚 ---------- */
 #define SWITCH_GPIO      GPIO_NUM_3    /* 接继电器/负载的引脚，按你的接线改 */
