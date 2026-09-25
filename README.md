@@ -46,7 +46,7 @@
 
 | 项目 | 值 |
 |---|---|
-| 广播名 | `C3_BLE_01` |
+| 广播名 | `洁洁的哈士奇` |
 | 服务 UUID | `0000F000-0000-1000-8000-00805F9B34FB`（简写 `0xF000`） |
 | 控制特征 UUID | `0000F001-0000-1000-8000-00805F9B34FB`（简写 `0xF001`） |
 | 特征属性 | READ + WRITE + NOTIFY |
@@ -55,7 +55,7 @@
 | 最大连接数 | 3 |
 | ATT MTU 上限 | 256 |
 
-> **地址说明**：固件使用 Random Static 地址广播，手机看到的 MAC 与芯片 Public MAC 不同，且重烧固件后可能变化。**App 必须按设备名 `C3_BLE_01` 或 服务 UUID `0xF000` 识别设备，切勿依赖 MAC。**
+> **地址说明**：固件使用 Random Static 地址广播，手机看到的 MAC 与芯片 Public MAC 不同，且重烧固件后可能变化。**App 必须按设备名 `洁洁的哈士奇` 或 服务 UUID `0xF000` 识别设备，切勿依赖 MAC。**
 
 ### 指令集（写入 `0xF001`）
 
@@ -134,7 +134,7 @@ cd build
 ### 正常串口日志（关键判据）
 
 ```
-BLE ready, name=C3_BLE_01, advertising...
+BLE ready, name=洁洁的哈士奇, advertising...
 registered service 0xf000 with handle=14
 registered characteristic 0xf001 with def_handle=15 val_handle=16
 BLE connected, conn_handle=1
@@ -172,7 +172,7 @@ BLE switch: OFF
 | # | 限制 | 建议 |
 |---|---|---|
 | 1 | 安全等级 0（开放，无配对） | 量产前提高 `CONFIG_BT_NIMBLE_SM_LVL` 到 2~3，启用 Passkey / Numeric Comparison |
-| 2 | 设备名固定 `C3_BLE_01` | 多设备场景加入 MAC 后几位做唯一化后缀 |
+| 2 | 设备名固定 `洁洁的哈士奇` | 多设备场景加入 MAC 后几位做唯一化后缀 |
 | 3 | 广播间隔 30~60 ms（功耗偏高） | 电池供电改为 100 ms ~ 1 s |
 | 4 | 单引脚单路开关 | 扩展特征（如 `0xF002`）或改用 `pin,level` 指令格式 |
 | 5 | Random Static 地址 | 如需固定标识，改用 Public 地址或在广播包携带自定义 ID |

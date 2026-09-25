@@ -22,7 +22,7 @@
 
 | 项 | 值 | 位置 |
 |---|---|---|
-| 蓝牙设备名 | `C3_BLE_01` | `main/main.c:25` |
+| 蓝牙设备名 | `洁洁的哈士奇` | `main/main.c:25` |
 | 服务 UUID | `0000F000-0000-1000-8000-00805F9B34FB` | `main/main.c` → `gatt_svcs[]` |
 | 控制特征 UUID | `0000F001-0000-1000-8000-00805F9B34FB` | 同上 |
 | 特征属性 | READ \| WRITE \| NOTIFY | 同上 |
@@ -80,7 +80,7 @@ nimble_port_freertos_init(ble_host_task);   // ← 之后不能再注册
 ### 5. 地址类型：Random Static，不要依赖 MAC
 - 日志中控制器打印的 `Bluetooth MAC: b4:3a:45:57:a1:9e` 是 **Public 地址**。
 - 实际广播用的是 **Random Static 地址**，`own_addr_type=1`，手机看到的 MAC 与前者不同，且**重烧固件后可能变化**。
-- **App 必须按设备名 `C3_BLE_01` 或 服务 UUID 识别设备，绝不能用 MAC。**
+- **App 必须按设备名 `洁洁的哈士奇` 或 服务 UUID 识别设备，绝不能用 MAC。**
 
 ### 6. Brownout 阈值
 - 曾误设为 3.27 V，RF 发射瞬间电流导致电压跌落 → 反复重启。
@@ -97,7 +97,7 @@ nimble_port_freertos_init(ble_host_task);   // ← 之后不能再注册
 - **「发送特征」下拉框必须选到 `0000f001-...`**。
 - 下拉里会混有标准特征 `0x2B29`（Client Supported Features，位于 Generic Attribute 服务，**只支持读**），误选后写入一律失败（App 界面"失败"计数 +1），芯片端**完全无反应**。
 - HEX 模式下推荐只发**单字节**：`31` = 开，`30` = 关（即字符 `'1'`/`'0'` 的 ASCII），不会触发格式校验。
-- 判断链路是否正常：对 `F001` 执行 **Read**，固定返回 `hello`。读到即证明链路/特征/回调全部正常。
+- 判断链路是否正常：对 `F001` 执行 **Read**，返回当前 `ON`/`OFF`。读到即证明链路/特征/回调全部正常。
 
 ---
 
@@ -153,7 +153,7 @@ registered service 0x1800 with handle=1
 registered service 0x1801 with handle=6
 registered service 0xf000 with handle=14
 registered characteristic 0xf001 with def_handle=15 val_handle=16
-BLE ready, name=C3_BLE_01, advertising...
+BLE ready, name=洁洁的哈士奇, advertising...
 BLE step: init done
 BLE connected, conn_handle=1
 BLE recv 1 bytes: 1
@@ -171,8 +171,8 @@ BLE switch: OFF
 | # | 事项 | 说明 |
 |---|---|---|
 | 1 | **App 开发** | 完整对接文档见 **`BLE_App开发对接文档.md`**（含 Android Kotlin / iOS Swift / Web Bluetooth 代码） |
-| 2 | Read 返回状态 | 当前 Read `F001` 固定返回 `hello`，**不返回开关状态** → App 无法知道当前是开是关。需改 READ 分支返回 `"ON"`/`"OFF"` |
-| 3 | 状态实时回传 | 当前 Notify 仅在订阅当刻发一次 `connected`。需在 WRITE 分支电平变化后主动 `ble_gatts_notify_custom` |
+| 2 | Read 返回状态 | ✅ **已实现**：Read `F001` 按当前电平返回 `ON`/`OFF`，App 可获知真实开关状态 |
+| 3 | 状态实时回传 | ✅ **已实现**：电平变化后主动 Notify `ON`/`OFF`，未知指令回传 `ERR` |
 | 4 | 安全性 | 当前 `SM_LVL=0`（开放，无配对），任何手机都能控制。量产前需提高安全等级 |
 | 5 | 量产优化 | 广播间隔 30~60ms 功耗偏高；设备名可加入唯一后缀避免多设备同名 |
 
